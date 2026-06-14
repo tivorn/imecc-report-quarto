@@ -4,8 +4,16 @@ Extensão Quarto para relatórios acadêmicos do IMECC — Unicamp, em conformid
 
 ## Instalação
 
+Como template (cria novo projeto com scaffold):
+
 ```bash
-quarto use template <repo-url>
+quarto use template tivorn/imecc-report-quarto
+```
+
+Como extensão apenas (adiciona a projeto existente):
+
+```bash
+quarto add tivorn/imecc-report-quarto
 ```
 
 ## Uso
