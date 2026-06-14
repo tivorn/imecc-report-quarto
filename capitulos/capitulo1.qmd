@@ -1,0 +1,47 @@
+# Revisão da Literatura
+
+Neste capítulo, apresentamos uma revisão da literatura relevante para o trabalho. As citações devem ser feitas utilizando o estilo ABNT autor-data, aplicado automaticamente pelo pacote abntex2cite.
+
+Por exemplo, @NBR14724:2011 define a estrutura de trabalhos acadêmicos, enquanto @NBR10520:2002 estabelece as regras para citações diretas e indiretas.
+
+## Seção de exemplo
+
+Aqui pode ser apresentado o referencial teórico do trabalho. As seções são numeradas automaticamente.
+
+### Subseção de exemplo
+
+As subseções também são numeradas. O texto deve ser escrito com recuo de parágrafo de 2,0 cm, espaçamento de 1,5 entre linhas e fonte tamanho 12.
+
+## Fórmulas matemáticas
+
+O modelo suporta notação matemática padrão do LaTeX. Por exemplo:
+
+$$\int_0^\infty e^{-x^2} dx = \frac{\sqrt{\pi}}{2}$$
+
+Os comandos matemáticos em português também estão disponíveis: $\sen(x)$, $\tg(x)$, $\cossec(x)$, $\cotg(x)$, bem como operadores customizados como $\posto(A)$, $\conv(S)$ e $\argmin_x f(x)$.
+
+## Figuras e tabelas
+
+Figuras podem ser incluídas com a sintaxe padrão do Quarto/Pandoc:
+
+```{r}
+#| label: fig-exemplo
+#| fig-cap: "Exemplo de figura."
+#| fig-width: 5
+#| fig-height: 3
+plot(1:10, (1:10)^2, type = "b", xlab = "x", ylab = "y")
+```
+
+Tabelas podem ser criadas com a sintaxe Markdown:
+
+| x | y |
+|---|---|
+| 1 | 1 |
+| 2 | 4 |
+| 3 | 9 |
+| 4 | 16 |
+| 5 | 25 |
+
+: Exemplo de tabela. {#tbl-exemplo}
+
+Consulte a documentação do Quarto em <https://quarto.org/> para mais opções de formatação de figuras e tabelas, incluindo o uso de `knitr` para gerar gráficos com R.

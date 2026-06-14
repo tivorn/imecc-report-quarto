@@ -1,0 +1,405 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Template simplificado para relatórios — Quarto/Pandoc       %%
+%%                                                              %%
+%% Baseado no template IMECC-UNICAMP (abntex2), removendo      %%
+%% elementos pré-textuais acadêmicos (capa institucional,      %%
+%% ficha catalográfica, folha de aprovação, dedicatória,       %%
+%% agradecimentos, epígrafe) e metadados institucionais.       %%
+%%                                                              %%
+%% Mantém formatação ABNT completa via classe abntex2.         %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% =================================================================
+% PREAMBLE
+% =================================================================
+
+% Pass options before \documentclass to avoid clashes
+\PassOptionsToPackage{unicode$for(hyperrefoptions)$,$hyperrefoptions$$endfor$}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+$if(colorlinks)$
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+$endif$
+% Pre-load babel options so abntex2's \RequirePackage[brazil]{babel}
+% and Pandoc's later babel loading don't clash
+\PassOptionsToPackage{bidi=basic,shorthands=off}{babel}
+
+\documentclass[
+12pt,
+openright,
+oneside,
+a4paper,
+brazilian,
+sumario=tradicional
+]{abntex2}
+
+% --- Doublestroke font (for \mathds command) ---
+\usepackage{dsfont}
+
+% --- Pandoc compatibility: iftex + font setup ---
+\usepackage{iftex}
+\ifPDFTeX
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\else
+$if(mathspec)$
+\ifXeTeX
+\usepackage{mathspec}
+\else
+\usepackage{unicode-math}
+\fi
+$else$
+\usepackage{unicode-math}
+$endif$
+\defaultfontfeatures{Scale=MatchLowercase}
+\defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+$if(mainfont)$
+\setmainfont[$for(mainfontoptions)$$mainfontoptions$$sep$,$endfor$]{$mainfont$}
+$else$
+\setmainfont{Latin Modern Roman}
+$endif$
+$if(sansfont)$
+\setsansfont[$for(sansfontoptions)$$sansfontoptions$$sep$,$endfor$]{$sansfont$}
+$endif$
+$if(monofont)$
+\setmonofont[$for(monofontoptions)$$monofontoptions$$sep$,$endfor$]{$monofont$}
+$endif$
+$for(fontfamilies)$
+\newfontfamily{$fontfamilies.name$}[$for(fontfamilies.options)$$fontfamilies.options$$sep$,$endfor$]{$fontfamilies.font$}
+$endfor$
+$if(mathfont)$
+$if(mathspec)$
+\ifXeTeX
+\setmathfont(Digits,Latin,Greek)[$for(mathfontoptions)$$mathfontoptions$$sep$,$endfor$]{$mathfont$}
+\else
+\setmathfont[$for(mathfontoptions)$$mathfontoptions$$sep$,$endfor$]{$mathfont$}
+\fi
+$else$
+\setmathfont[$for(mathfontoptions)$$mathfontoptions$$sep$,$endfor$]{$mathfont$}
+$endif$
+$endif$
+$if(CJKmainfont)$
+\ifXeTeX
+\usepackage{xeCJK}
+\setCJKmainfont[$for(CJKoptions)$$CJKoptions$$sep$,$endfor$]{$CJKmainfont$}
+\fi
+$endif$
+\fi
+
+% --- Microtype (safe to load) ---
+\IfFileExists{microtype.sty}{%
+\usepackage[$for(microtypeoptions)$$microtypeoptions$$sep$,$endfor$]{microtype}
+\UseMicrotypeSet[protrusion]{basicmath}
+}{}
+
+% --- Additional Pandoc packages ---
+$if(verbatim-in-note)$
+\usepackage{fancyvrb}
+$endif$
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+
+$if(lhs)$
+\lstnewenvironment{code}{\lstset{language=Haskell,basicstyle=\small\ttfamily}}{}
+$endif$
+
+$if(strikeout)$
+\usepackage[normelem]{ulem}
+$endif$
+
+\setlength{\emergencystretch}{3em}
+
+$if(numbersections)$
+\setcounter{secnumdepth}{$if(secnumdepth)$$secnumdepth$$else$5$endif$}
+$else$
+\setcounter{secnumdepth}{5}
+$endif$
+
+$if(block-headings)$
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+$endif$
+
+% --- Pandoc internal commands ---
+$pandoc.tex()$
+
+% --- Listings (code blocks) ---
+$if(listings)$
+\usepackage{listings}
+\newcommand{\passthrough}[1]{#1}
+\lstset{defaultdialect=[5.3]Lua}
+\lstset{defaultdialect=[x86masm]Assembler}
+$endif$
+
+% =================================================================
+% CONFIGURAÇÕES GLOBAIS
+% =================================================================
+
+% --- Parágrafo ---
+\setlength{\parindent}{2.0cm}
+\setlength{\parskip}{0.2cm}
+
+% --- Frenchspacing ---
+\frenchspacing
+
+% --- Backref ---
+\usepackage[brazilian]{backref}
+\renewcommand{\backrefpagesname}{Citado na(s) página(s):~}
+\renewcommand{\backref}{}
+\renewcommand*{\backrefalt}[4]{%
+\ifcase #1%
+Nenhuma citação no texto.%
+\or
+Citado na página #2.%
+\else
+Citado #1 vezes nas páginas #2.%
+\fi%
+}
+
+% --- Citações ABNT (abntex2cite) ---
+\usepackage[alf,
+abnt-repeated-author-omit=yes,
+abnt-etal-list=0
+]{abntex2cite}
+
+% --- Aliases for Pandoc natbib citation commands ---
+\providecommand{\citet}{\citeonline}
+\providecommand{\citep}{\cite}
+
+% --- Ambientes de teorema ---
+\newtheorem{theorem}{Teorema}
+\newtheorem{lemma}{Lema}
+\providecommand*{\lemmaautorefname}{Lema}
+\newtheorem{proposition}{Proposição}
+\providecommand*{\propositionautorefname}{Proposição}
+\newtheorem{corollary}{Corolário}
+\providecommand*{\corollaryautorefname}{Corolário}
+\newtheorem{conjecture}{Conjectura}
+\providecommand*{\conjectureautorefname}{Conjectura}
+\newtheorem{definition}{Definição}
+\providecommand*{\definitionautorefname}{Definição}
+\newtheorem{notation}{Notação}
+\providecommand*{\notationautorefname}{Notação}
+\newtheorem{remark}{Observação}
+\providecommand*{\remarkautorefname}{Observação}
+\newtheorem{example}{Exemplo}
+\providecommand*{\exampleautorefname}{Exemplo}
+\newtheorem{note}{Nota}
+\providecommand*{\noteautorefname}{Nota}
+
+% --- Operadores matemáticos em português ---
+\providecommand{\sen}{\sin}
+\renewcommand{\sen}{\mathrm{sen}}
+\providecommand{\tg}{\tan}
+\renewcommand{\tg}{\mathrm{tg}}
+\providecommand{\cossec}{\csc}
+\renewcommand{\cossec}{\mathrm{cossec}}
+\providecommand{\cotg}{\cot}
+\renewcommand{\cotg}{\mathrm{cotg}}
+\DeclareMathOperator{\posto}{\mathrm{posto}}
+\DeclareMathOperator{\conv}{\mathrm{conv}}
+\DeclareMathOperator{\diag}{\mathrm{diag}}
+\DeclareMathOperator{\argmin}{\mathrm{arg}\min}
+\DeclareMathOperator{\argmax}{\mathrm{arg}\max}
+
+% =================================================================
+% ALTERAÇÕES DE LAYOUT
+% =================================================================
+
+% --- Ajusta entrada de Referências (UPPERCASE no sumário) ---
+\renewcommand{\bibsection}{%
+\chapter*{\bibname}%
+\bibmark%
+\ifnobibintoc\else
+\phantomsection%
+\addcontentsline{toc}{chapter}{\texorpdfstring{\MakeTextUppercase{\bibname}}{\bibname}}%
+\fi
+\prebibhook%
+}
+
+% --- Altera estilo de página "part" ---
+\makeatletter
+\let\sv@endpart\@endpart
+\def\@endpart{\thispagestyle{abntchapfirst}\sv@endpart}
+\makeatother
+
+% --- Ambientes wrapper para resumo/abstract via latex-environment filter ---
+\newenvironment{resumo-pt}{%
+\begin{resumo}[Resumo]%
+\begin{otherlanguage*}{brazil}%
+}{%
+\end{otherlanguage*}%
+\end{resumo}%
+}
+\newenvironment{resumo-en}{%
+\begin{resumo}[Abstract]%
+\begin{otherlanguage*}{english}%
+}{%
+\end{otherlanguage*}%
+\end{resumo}%
+}
+
+% --- Apêndices/Anexos: UPPERCASE no sumário ---
+\renewcommand{\PRIVATEapendiceconfig}[2]{%
+\setboolean{abntex@apendiceousecao}{true}%
+\renewcommand{\appendixname}{#1}%
+\ifthenelse{\boolean{ABNTEXsumario-abnt-6027-2012}}{%
+\renewcommand{\appendixtocname}{\texorpdfstring{\MakeTextUppercase{#2}}{#2}}%
+}{%
+\renewcommand{\appendixtocname}{#2}}%
+\renewcommand{\appendixpagename}{#2}%
+\switchchapname{#1}%
+\renewcommand*{\cftappendixname}{#1 \space}%
+}
+
+% =================================================================
+% COMANDO PARA CAPA SIMPLIFICADA
+% =================================================================
+\newcommand{\imprimirprimeirafolha}{%
+\begin{center}
+\vspace*{2cm}
+{\ABNTEXchapterfont\large\MakeUppercase{\imprimirautor}}
+
+\vspace*{3cm}
+
+{\ABNTEXchapterfont\bfseries\LARGE\imprimirtitulo}
+
+\vfill
+
+{\large\imprimirlocal}
+
+\vspace*{0.5cm}
+
+{\large\imprimirdata}
+
+\vspace*{2cm}
+\end{center}
+\clearpage
+}
+
+% =================================================================
+% POPULATE DATA COMMANDS FROM YAML VARIABLES
+% =================================================================
+
+% --- Título ---
+$if(title)$
+\titulo{$title$}
+$endif$
+
+% --- Autor ---
+$if(author)$
+\autor{$author$}
+$endif$
+
+% --- Local e data ---
+$if(local)$
+\local{$local$}
+$endif$
+
+$if(ano)$
+\data{$ano$}
+$endif$
+
+% =================================================================
+% HYPERREF (loaded by abntex2, we just configure it)
+% =================================================================
+\hypersetup{
+$if(title-meta)$
+pdftitle={$title-meta$},
+$endif$
+$if(author-meta)$
+pdfauthor={$author-meta$},
+$endif$
+$if(lang)$
+pdflang={$lang$},
+$endif$
+$if(subject)$
+pdfsubject={$subject$},
+$endif$
+$if(keywords)$
+pdfkeywords={$for(keywords)$$keywords$$sep$, $endfor$},
+$endif$
+$if(colorlinks)$
+colorlinks=true,
+linkcolor={$if(linkcolor)$$linkcolor$$else$Blue$endif$},
+filecolor={$if(filecolor)$$filecolor$$else$Maroon$endif$},
+citecolor={$if(citecolor)$$citecolor$$else$Blue$endif$},
+urlcolor={$if(urlcolor)$$urlcolor$$else$Blue$endif$},
+$else$
+$if(boxlinks)$
+$else$
+hidelinks,
+$endif$
+$endif$
+pdfcreator={LaTeX via pandoc with abntex2 report template}
+}
+
+% =================================================================
+% INÍCIO DO DOCUMENTO
+% =================================================================
+\begin{document}
+
+% --- Seleciona idioma ---
+\selectlanguage{brazilian}
+
+% =================================================================
+% ELEMENTOS PRÉ-TEXTUAIS
+% =================================================================
+\pretextual
+
+% --- Capa simplificada ---
+\imprimirprimeirafolha
+
+% --- Resumo em Português ---
+$if(resumo)$
+\begin{resumo}[Resumo]
+\begin{otherlanguage*}{brazil}
+$resumo$
+
+\textbf{Palavras-chave}: $palavras-chave$
+\end{otherlanguage*}
+\end{resumo}
+$endif$
+
+% --- Lista de Ilustrações ---
+\pdfbookmark[0]{\listfigurename}{lof}
+\listoffigures*
+\cleardoublepage
+
+% --- Lista de Tabelas ---
+\pdfbookmark[0]{\listtablename}{lot}
+\listoftables*
+\cleardoublepage
+
+% --- Lista de Siglas ---
+$if(lista-siglas)$
+\begin{siglas}
+$lista-siglas$
+\end{siglas}
+$endif$
+
+% --- Lista de Símbolos ---
+$if(lista-simbolos)$
+\begin{simbolos}
+$lista-simbolos$
+\end{simbolos}
+$endif$
+
+% --- Sumário ---
+\pdfbookmark[0]{\contentsname}{toc}
+\tableofcontents*
+\cleardoublepage
+
+% =================================================================
+% ELEMENTOS TEXTUAIS
+% =================================================================
+\textual
+
+$body$
+
+\end{document}

@@ -1,0 +1,15 @@
+# Considerações Finais {.unnumbered}
+
+Neste trabalho, apresentamos um modelo de relatório utilizando o sistema de editoração Quarto com a classe abntex2. O modelo foi desenvolvido em conformidade com as normas ABNT.
+
+As principais características do modelo incluem:
+
+- Capa simplificada com título, autor, local e data
+- Ambientes para resumo, lista de siglas e lista de símbolos
+- Formatação ABNT de capítulos, seções e subseções
+- Estilo de citação ABNT autor-data via abntex2cite
+- Capítulos em arquivos `.qmd` separados, importados via `{{< include >}}`
+
+Para informações adicionais sobre o abnTeX2, consulte a documentação disponível em <http://www.abntex.net.br/>.
+
+Para informações sobre o Quarto, consulte <https://quarto.org/>.

@@ -1,0 +1,49 @@
+---
+title: "Título do Relatório"
+author: "Nome do Autor"
+local: "Campinas"
+ano: "2026"
+
+# --- Resumo (opcional) ---
+# Descomente e preencha se desejar incluir resumo.
+# resumo: |
+#   Resumo do relatório...
+# palavras-chave: palavra1. palavra2. palavra3.
+
+# --- Listas de siglas e símbolos (opcional) ---
+# Insira os itens usando \item[SIGLA] Descrição (sintaxe LaTeX description list)
+# lista-siglas: |
+#   \item[SIGLA] Descrição da sigla
+# lista-simbolos: |
+#   \item[$\alpha$] Descrição do símbolo
+
+lang: pt-BR
+format: imecc-report-pdf
+bibliography: referencias.bib
+---
+
+{{< include capitulos/introducao.qmd >}}
+
+{{< include capitulos/capitulo1.qmd >}}
+
+{{< include capitulos/capitulo2.qmd >}}
+
+{{< include capitulos/considfinais.qmd >}}
+
+\postextual
+
+\bibliography{referencias.bib}
+
+\begin{apendicesenv}
+\partapendices
+
+\chapter{Exemplo de apêndice}
+Este é um exemplo de apêndice. Apêndices são elementos opcionais que complementam o trabalho, como documentos, tabelas ou cálculos que não cabem no corpo do texto.
+\end{apendicesenv}
+
+\begin{anexosenv}
+\partanexos
+
+\chapter{Exemplo de anexo}
+Este é um exemplo de anexo. Anexos são documentos ou textos não elaborados pelo autor que servem de fundamentação, comprovação ou ilustração.
+\end{anexosenv}

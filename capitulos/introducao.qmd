@@ -1,0 +1,18 @@
+# Introdução {.unnumbered}
+
+Este relatório foi formatado utilizando a classe abntex2 em conjunto com o sistema de editoração Quarto, seguindo as normas da Associação Brasileira de Normas Técnicas (ABNT) para apresentação de documentos.
+
+As normas ABNT aplicáveis incluem:
+
+- NBR 14724:2011 --- Informação e documentação --- Trabalhos acadêmicos --- Apresentação
+- NBR 10520:2002 --- Informação e documentação --- Citações em documentos --- Apresentação
+- NBR 6028:2003 --- Informação e documentação --- Resumo --- Apresentação
+- NBR 6027:2012 --- Informação e documentação --- Sumário --- Apresentação
+- NBR 6024:2012 --- Informação e documentação --- Numeração progressiva das seções de um documento --- Apresentação
+- NBR 6023:2002 --- Informação e documentação --- Referências --- Elaboração
+
+O objetivo principal deste modelo é proporcionar um meio de produzir relatórios em conformidade com as normas ABNT, utilizando o Quarto como sistema de editoração.
+
+```{r}
+print("Hello world")
+```
